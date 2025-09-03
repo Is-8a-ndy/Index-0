@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaje a la Luna con Vales de Despensa - ¡Tu Sueño Lunar Comienza Aquí!</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
+
+        :root {
+            --primary-color: #00bcd4; /* Cian futurista */
+            --secondary-color: #ffeb3b; /* Amarillo brillante */
+            --dark-bg: #1a202c; /* Fondo oscuro casi negro */
+            --light-text: #e2e8f0; /* Texto claro */
+            --accent-glow: rgba(0, 188, 212, 0.5);
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://via.placeholder.com/1920x1080?text=Fondo+Espacial'); /* Placeholder para una imagen de espacio */
+            background-size: cover;
+            background-position: center;
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 100%);
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5em;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px var(--accent-glow);
+            animation: glow-text 1.5s infinite alternate;
+        }
+
+        header p {
+            font-size: 1.4em;
+            color: var(--light-text);
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 30px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--dark-bg);
+            padding: 15px 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px var(--secondary-color);
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .cta-button:hover {
+            background-color: #ffc107;
+            box-shadow: 0 0 30px var(--secondary-color);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .section {
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            background-color: rgba(26, 32, 44, 0.85); /* Un poco más oscuro */
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0, 188, 212, 0.1);
+        }
+
+        .section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .section p {
+            font-size: 1.1em;
+            max-width: 900px;
+            margin: 0 auto 30px auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .feature-item {
+            background-color: rgba(45, 55, 72, 0.9);
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 188, 212, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 188, 212, 0.4);
+        }
+
+        .feature-item h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--secondary-color);
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .feature-item p {
+            font-size: 1em;
+            color: var(--light-text);
+        }
+
+        .payment-info {
+            background-color: var(--primary-color);
+            color: var(--dark-bg);
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-top: 60px;
+            box-shadow: 0 0 40px var(--primary-color);
+        }
+
+        .payment-info h2 {
+            color: var(--dark-bg);
+            text-shadow: none;
+            margin-bottom: 15px;
+        }
+
+        .payment-info p {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .payment-info img {
+            max-width: 150px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            background-color: rgba(0,0,0,0.7);
+            border-top: 1px solid var(--primary-color);
+            font-size: 0.9em;
+            color: #a0aec0;
+        }
+
+        @keyframes glow-text {
+            0% { text-shadow: 0 0 10px var(--accent-glow); }
+            100% { text-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(0, 188, 212, 0.3); }
+        }
+
+        .rocket {
+            position: absolute;
+            bottom: -50px;
+            right: 5%;
+            width: 80px;
+            height: 80px;
+            background-image: url('https://via.placeholder.com/80x80?text=Cohete'); /* Placeholder para un ícono de cohete */
+            background-size: contain;
+            background-repeat: no-repeat;
+            animation: launch-rocket 5s forwards ease-out;
+            opacity: 0;
+        }
+
+        @keyframes launch-rocket {
+            0% {
+                transform: translateY(200px) translateX(0) rotate(20deg);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-800px) translateX(-200px) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        .vale-icon {
+            font-size: 3em;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>¡Tu Sueño Lunar Despega!</h1>
+            <p>Prepárate para la aventura de tu vida. Contempla la Tierra desde una perspectiva única y sé parte de la élite espacial.</p>
+            <a href="#reservar" class="cta-button">¡Reserva Tu Asiento Hoy!</a>
+            <div class="rocket"></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section">
+            <h2>¿Por qué la Luna?</h2>
+            <p>Más allá de la Tierra te espera un mundo de maravillas. Experimenta la baja gravedad, maravíllate con el paisaje lunar y sé testigo de amaneceres y atardeceres como nunca antes los has visto.</p>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h3>Vistas Inolvidables</h3>
+                    <p>Contempla la esfera azul de nuestro planeta flotando en la inmensidad del espacio.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Gravedad Reducida</h3>
+                    <p>¡Flota, salta y experimenta la ligereza de ser en un entorno casi sin peso!</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Exclusividad Absoluta</h3>
+                    <p>Sé parte de un grupo selecto de pioneros que han pisado nuestro satélite natural.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Tecnología de Vanguardia</h3>
+                    <p>Naves espaciales de última generación garantizan un viaje seguro y confortable.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section payment-info">
+            <h2>¡Pago Revolucionario!</h2>
+            <p>Sabemos que un viaje espacial es un sueño, y queremos hacerlo accesible. Por primera vez en la historia...</p>
+            <span class="vale-icon">💳</span>
+            <h2>¡Aceptamos Vales de Despensa para tu Viaje a la Luna!</h2>
+            <p>Sí, has leído bien. ¡Tus vales de despensa ahora te acercan a las estrellas! ¡Consulta términos y condiciones!</p>
+            <img src="https://via.placeholder.com/200x100?text=Vale+Despensa" alt="Vale de Despensa">
+            <a href="#contacto" class="cta-button">¡Quiero Saber Más!</a>
+        </section>
+
+        <section class="section" id="reservar">
+            <h2>¡Tu Boleto al Espacio!</h2>
+            <p>La capacidad es limitada y la demanda es astronómica. No dejes pasar esta oportunidad única en la vida.</p>
+            <a href="#contacto" class="cta-button">¡Reserva Tu Viaje Lunar Ahora!</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 AstroViajes S.A. de C.V. Todos los derechos reservados. | <a href="#" style="color: var(--primary-color);">Política de Privacidad</a> | <a href="#" style="color: var(--primary-color);">Términos y Condiciones</a></p>
+    </footer>
+
+</body>
+</html>

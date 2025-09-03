@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AquaPure - El Sabor de la Pureza</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Montserrat:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #2196F3; /* Azul vibrante */
+            --secondary-color: #f0f8ff; /* Azul muy claro, casi blanco */
+            --dark-color: #1a237e; /* Azul oscuro */
+            --text-color: #333;
+            --white-color: #ffffff;
+            --light-bg: #e3f2fd;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--white-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* --- Estilos de la Cabecera (Header) --- */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://via.placeholder.com/1920x1080?text=Montañas+con+nieve');
+            background-size: cover;
+            background-position: center;
+            color: var(--white-color);
+            text-align: center;
+            padding: 150px 20px;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4em;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin-top: 10px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            margin-top: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* --- Sección de Características (Features) --- */
+        .features {
+            text-align: center;
+            padding: 60px 0;
+            background-color: var(--secondary-color);
+        }
+
+        .features h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            color: var(--dark-color);
+            margin-bottom: 50px;
+        }
+
+        .feature-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .feature-item {
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 300px;
+            text-align: left;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .feature-item h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5em;
+            margin-top: 0;
+            color: var(--dark-color);
+        }
+        
+        /* --- Sección de la Historia (Story) --- */
+        .story {
+            padding: 80px 0;
+            background-color: var(--white-color);
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .story-content {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .story-content h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            color: var(--dark-color);
+            margin-bottom: 20px;
+        }
+
+        .story-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .story-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .story-image img:hover {
+            transform: scale(1.02);
+        }
+
+        /* --- Sección de Testimonios (Testimonials) --- */
+        .testimonials {
+            padding: 60px 0;
+            background-color: var(--light-bg);
+            text-align: center;
+        }
+
+        .testimonials h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5em;
+            color: var(--dark-color);
+            margin-bottom: 50px;
+        }
+
+        .testimonial-carousel {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            padding-bottom: 20px;
+        }
+
+        .testimonial-item {
+            flex: 0 0 80%;
+            max-width: 80%;
+            margin: 0 10%;
+            scroll-snap-align: center;
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-item p {
+            font-style: italic;
+        }
+
+        .testimonial-item .author {
+            font-weight: 600;
+            margin-top: 15px;
+            color: var(--primary-color);
+        }
+
+        /* --- Pie de Página (Footer) --- */
+        footer {
+            background-color: var(--dark-color);
+            color: var(--white-color);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* --- Animaciones (Animations) --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div class="container">
+            <h1>AquaPure</h1>
+            <p>El sabor de la pureza en cada gota, directamente de las montañas.</p>
+            <a href="#contacto" class="cta-button">¡Pruébala Hoy!</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="caracteristicas" class="features">
+            <div class="container">
+                <h2>¿Por qué elegir AquaPure?</h2>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">💧</div>
+                        <h3>Pureza Inigualable</h3>
+                        <p>Nuestra agua proviene de manantiales subterráneos protegidos, filtrada naturalmente por capas de roca.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⛰️</div>
+                        <h3>Origen Natural</h3>
+                        <p>Envasada directamente en su origen, conservando todos los minerales esenciales y su sabor fresco.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🌱</div>
+                        <h3>Sostenibilidad</h3>
+                        <p>Comprometidos con el medio ambiente, utilizamos botellas 100% reciclables y procesos ecológicos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="historia" class="story container">
+            <div class="story-content">
+                <h2>Nuestra Historia</h2>
+                <p>AquaPure nació de la pasión por ofrecer un producto simple y puro. Descubrimos un manantial escondido en las faldas de las montañas, cuya agua tenía un sabor y una calidad excepcionales. Decidimos compartir esta maravilla natural con el mundo, garantizando que cada botella de AquaPure sea tan pura como la fuente de la que proviene.</p>
+                <p>Trabajamos de la mano con la naturaleza, respetando el ciclo del agua y protegiendo el ecosistema que nos da este preciado recurso.</p>
+            </div>
+            <div class="story-image">
+                <img src="https://via.placeholder.com/600x400?text=Botella+de+agua" alt="Botella de agua AquaPure">
+            </div>
+        </section>
+
+        <section id="testimonios" class="testimonials">
+            <div class="container">
+                <h2>Lo que dicen nuestros clientes</h2>
+                <div class="testimonial-carousel">
+                    <div class="testimonial-item">
+                        <p>"Simplemente la mejor agua que he probado. Se siente fresca y ligera, ideal para mi día a día."</p>
+                        <div class="author">- Ana R.</div>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Desde que cambié a AquaPure, noto la diferencia. Su sabor es inconfundible y me ayuda a mantenerme hidratado."</p>
+                        <div class="author">- Carlos G.</div>
+                    </div>
+                    <div class="testimonial-item">
+                        <p>"Me encanta el compromiso de la marca con la sostenibilidad. ¡Producto increíble y responsable!"</p>
+                        <div class="author">- Laura M.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contacto">
+        <div class="container">
+            <p>&copy; 2023 AquaPure. Todos los derechos reservados.</p>
+            <p>Contacto: info@aquapure.com</p>
+        </div>
+    </footer>
+
+</body>
+</html>

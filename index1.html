@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .calculator {
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .display {
+            background-color: #222;
+            color: #fff;
+            font-size: 2.5em;
+            text-align: right;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            height: 50px;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .buttons button {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .buttons button:hover {
+            background-color: #d0d0d0;
+        }
+        .buttons .operator {
+            background-color: #ffa500;
+            color: #fff;
+        }
+        .buttons .operator:hover {
+            background-color: #cc8400;
+        }
+        .buttons .equals {
+            background-color: #28a745;
+            color: #fff;
+            grid-column: span 2;
+        }
+        .buttons .equals:hover {
+            background-color: #1e7e34;
+        }
+        .buttons .clear {
+            background-color: #dc3545;
+            color: #fff;
+        }
+        .buttons .clear:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+        <button class="clear">C</button>
+        <button class="operator">/</button>
+        <button class="operator">*</button>
+        <button class="operator">-</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button class="operator">+</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button class="equals">=</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>0</button>
+        <button>.</button>
+    </div>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+    let currentInput = '0';
+    let firstOperand = null;
+    let operator = null;
+    let waitingForSecondOperand = false;
+
+    function updateDisplay() {
+        display.textContent = currentInput;
+    }
+
+    function clear() {
+        currentInput = '0';
+        firstOperand = null;
+        operator = null;
+        waitingForSecondOperand = false;
+        updateDisplay();
+    }
+
+    function handleNumber(number) {
+        if (waitingForSecondOperand) {
+            currentInput = number;
+            waitingForSecondOperand = false;
+        } else {
+            currentInput = currentInput === '0' ? number : currentInput + number;
+        }
+        updateDisplay();
+    }
+
+    function handleOperator(nextOperator) {
+        const inputValue = parseFloat(currentInput);
+
+        if (operator && waitingForSecondOperand) {
+            operator = nextOperator;
+            return;
+        }
+
+        if (firstOperand === null) {
+            firstOperand = inputValue;
+        } else if (operator) {
+            const result = performCalculation(operator, firstOperand, inputValue);
+            currentInput = String(result);
+            firstOperand = result;
+        }
+
+        waitingForSecondOperand = true;
+        operator = nextOperator;
+        updateDisplay();
+    }
+
+    function performCalculation(operator, firstOperand, secondOperand) {
+        switch (operator) {
+            case '+': return firstOperand + secondOperand;
+            case '-': return firstOperand - secondOperand;
+            case '*': return firstOperand * secondOperand;
+            case '/': return firstOperand / secondOperand;
+            default: return secondOperand;
+        }
+    }
+
+    function handleEquals() {
+        const inputValue = parseFloat(currentInput);
+
+        if (operator === null || waitingForSecondOperand) {
+            return;
+        }
+
+        const result = performCalculation(operator, firstOperand, inputValue);
+        currentInput = String(result);
+        firstOperand = null;
+        operator = null;
+        waitingForSecondOperand = true;
+        updateDisplay();
+    }
+
+    const buttons = document.querySelector('.buttons');
+    buttons.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!target.matches('button')) {
+            return;
+        }
+
+        if (target.classList.contains('operator')) {
+            handleOperator(target.textContent);
+            return;
+        }
+
+        if (target.classList.contains('clear')) {
+            clear();
+            return;
+        }
+
+        if (target.classList.contains('equals')) {
+            handleEquals();
+            return;
+        }
+
+        handleNumber(target.textContent);
+    });
+</script>
+
+</body>
+</html>

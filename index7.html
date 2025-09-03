@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juegos Clásicos</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --background-color: #1B1B1B;
+            --text-color: #E0E0E0;
+            --accent-color: #FFC107;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.5s ease;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            margin: 0;
+            color: white;
+        }
+
+        .game-selector {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+            gap: 1rem;
+        }
+
+        .game-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--secondary-color);
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .game-btn:hover {
+            transform: translateY(-2px);
+            background-color: var(--accent-color);
+        }
+
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #000;
+            border: 2px solid var(--primary-color);
+        }
+
+        .game-info {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .controls {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        /* Temas específicos para cada juego */
+        .snake-theme {
+            --primary-color: #4CAF50;
+            --secondary-color: #2E7D32;
+            --background-color: #1B3C1F;
+            --text-color: #E8F5E9;
+            --accent-color: #FFC107;
+        }
+
+        .pacman-theme {
+            --primary-color: #FFC107;
+            --secondary-color: #FF8F00;
+            --background-color: #1A237E;
+            --text-color: #E8EAF6;
+            --accent-color: #F44336;
+        }
+
+        .tetris-theme {
+            --primary-color: #2196F3;
+            --secondary-color: #0D47A1;
+            --background-color: #010D3F;
+            --text-color: #E3F2FD;
+            --accent-color: #E91E63;
+        }
+    </style>
+</head>
+<body class="snake-theme">
+    <header>
+        <h1>Juegos Clásicos</h1>
+    </header>
+
+    <div class="game-selector">
+        <button class="game-btn" id="snake-btn">Snake</button>
+        <button class="game-btn" id="pacman-btn">Pacman</button>
+        <button class="game-btn" id="tetris-btn">Tetris</button>
+    </div>
+
+    <div class="game-container">
+        <div class="game-info">
+            <span class="score" id="score">Puntuación: 0</span>
+        </div>
+        <canvas id="game-canvas" width="400" height="400"></canvas>
+        <div class="controls" id="controls">
+            <p>Usa las flechas del teclado para moverte</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Disfruta de estos clásicos juegos. ¡Cambia de juego para experimentar diferentes temáticas de color!</p>
+    </footer>
+
+    <script>
+        // Variables globales
+        let currentGame = 'snake';
+        let gameInterval;
+        let score = 0;
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score');
+        const controlsInfo = document.getElementById('controls');
+
+        // Configuración inicial
+        setupGame('snake');
+
+        // Event listeners para los botones
+        document.getElementById('snake-btn').addEventListener('click', () => setupGame('snake'));
+        document.getElementById('pacman-btn').addEventListener('click', () => setupGame('pacman'));
+        document.getElementById('tetris-btn').addEventListener('click', () => setupGame('tetris'));
+
+        // Configurar el juego según la selección
+        function setupGame(game) {
+            clearInterval(gameInterval);
+            currentGame = game;
+            
+            // Cambiar tema visual
+            document.body.className = `${game}-theme`;
+            
+            // Reiniciar puntuación
+            score = 0;
+            scoreDisplay.textContent = `Puntuación: ${score}`;
+            
+            // Configurar controles según el juego
+            switch(game) {
+                case 'snake':
+                    controlsInfo.innerHTML = '<p>Usa las flechas del teclado para mover la serpiente</p>';
+                    initSnake();
+                    break;
+                case 'pacman':
+                    controlsInfo.innerHTML = '<p>Usa las flechas del teclado para mover a Pacman</p>';
+                    initPacman();
+                    break;
+                case 'tetris':
+                    controlsInfo.innerHTML = '<p>Usa las flechas: ← → para mover, ↑ para rotar, ↓ para bajar más rápido</p>';
+                    initTetris();
+                    break;
+            }
+        }
+
+        // Juego de Snake
+        function initSnake() {
+            const gridSize = 20;
+            let snake = [{x: 10, y: 10}];
+            let food = {x: 15, y: 15};
+            let direction = 'right';
+            let newDirection = 'right';
+
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowUp': if (direction !== 'down') newDirection = 'up'; break;
+                    case 'ArrowDown': if (direction !== 'up') newDirection = 'down'; break;
+                    case 'ArrowLeft': if (direction !== 'right') newDirection = 'left'; break;
+                    case 'ArrowRight': if (direction !== 'left') newDirection = 'right'; break;
+                }
+            });
+
+            function gameLoop() {
+                direction = newDirection;
+                
+                // Mover la serpiente
+                const head = {...snake[0]};
+                switch(direction) {
+                    case 'up': head.y--; break;
+                    case 'down': head.y++; break;
+                    case 'left': head.x--; break;
+                    case 'right': head.x++; break;
+                }
+
+                // Verificar colisiones con los bordes
+                if (head.x < 0 || head.x >= canvas.width/gridSize || 
+                    head.y < 0 || head.y >= canvas.height/gridSize) {
+                    resetGame();
+                    return;
+                }
+
+                // Verificar colisión consigo misma
+                for (let i = 0; i < snake.length; i++) {
+                    if (snake[i].x === head.x && snake[i].y === head.y) {
+                        resetGame();
+                        return;
+                    }
+                }
+
+                // Verificar si come la comida
+                if (head.x === food.x && head.y === food.y) {
+                    score += 10;
+                    scoreDisplay.textContent = `Puntuación: ${score}`;
+                    generateFood();
+                } else {
+                    snake.pop();
+                }
+
+                snake.unshift(head);
+
+                // Dibujar
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Dibujar comida
+                ctx.fillStyle = '#FF5252';
+                ctx.fillRect(food.x * gridSize, food.y * gridSize, gridSize, gridSize);
+                
+                // Dibujar serpiente
+                snake.forEach((segment, index) => {
+                    ctx.fillStyle = index === 0 ? '#4CAF50' : '#8BC34A';
+                    ctx.fillRect(segment.x * gridSize, segment.y * gridSize, gridSize, gridSize);
+                });
+            }
+
+            function generateFood() {
+                food = {
+                    x: Math.floor(Math.random() * (canvas.width / gridSize)),
+                    y: Math.floor(Math.random() * (canvas.height / gridSize))
+                };
+                
+                // Asegurarse de que la comida no aparezca encima de la serpiente
+                for (let segment of snake) {
+                    if (segment.x === food.x && segment.y === food.y) {
+                        generateFood();
+                        break;
+                    }
+                }
+            }
+
+            function resetGame() {
+                clearInterval(gameInterval);
+                alert(`Game Over! Puntuación: ${score}`);
+                snake = [{x: 10, y: 10}];
+                direction = 'right';
+                newDirection = 'right';
+                score = 0;
+                scoreDisplay.textContent = `Puntuación: ${score}`;
+                generateFood();
+                gameInterval = setInterval(gameLoop, 150);
+            }
+
+            generateFood();
+            gameInterval = setInterval(gameLoop, 150);
+        }
+
+        // Juego de Pacman (versión simplificada)
+        function initPacman() {
+            const gridSize = 20;
+            let pacman = {x: 10, y: 10, direction: 'right'};
+            let dots = [];
+            let ghosts = [{x: 5, y: 5, color: '#F44336'}];
+            
+            // Generar puntos
+            for (let x = 0; x < canvas.width/gridSize; x++) {
+                for (let y = 0; y < canvas.height/gridSize; y++) {
+                    if (Math.random() > 0.2 && !(x === pacman.x && y === pacman.y)) {
+                        dots.push({x, y});
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', (e) => {
+                switch(e.key) {
+                    case 'ArrowUp': pacman.direction = 'up'; break;
+                    case 'ArrowDown': pacman.direction = 'down'; break;
+                    case 'ArrowLeft': pacman.direction = 'left'; break;
+                    case 'ArrowRight': pacman.direction = 'right'; break;
+                }
+            });
+
+            function gameLoop() {
+                // Mover pacman
+                const newPos = {...pacman};
+                switch(pacman.direction) {
+                    case 'up': newPos.y--; break;
+                    case 'down': newPos.y++; break;
+                    case 'left': newPos.x--; break;
+                    case 'right': newPos.x++; break;
+                }
+
+                // Verificar bordes
+                if (newPos.x >= 0 && newPos.x < canvas.width/gridSize && 
+                    newPos.y >= 0 && newPos.y < canvas.height/gridSize) {
+                    pacman = newPos;
+                }
+
+                // Comer puntos
+                dots = dots.filter(dot => {
+                    if (dot.x === pacman.x && dot.y === pacman.y) {
+                        score += 5;
+                        scoreDisplay.textContent = `Puntuación: ${score}`;
+                        return false;
+                    }
+                    return true;
+                });
+
+                // Mover fantasmas (movimiento aleatorio simple)
+                ghosts.forEach(ghost => {
+                    const directions = ['up', 'down', 'left', 'right'];
+                    ghost.direction = directions[Math.floor(Math.random() * directions.length)];
+                    
+                    const newGhostPos = {...ghost};
+                    switch(ghost.direction) {
+                        case 'up': newGhostPos.y--; break;
+                        case 'down': newGhostPos.y++; break;
+                        case 'left': newGhostPos.x--; break;
+                        case 'right': newGhostPos.x++; break;
+                    }
+
+                    if (newGhostPos.x >= 0 && newGhostPos.x < canvas.width/gridSize && 
+                        newGhostPos.y >= 0 && newGhostPos.y < canvas.height/gridSize) {
+                        ghost.x = newGhostPos.x;
+                        ghost.y = newGhostPos.y;
+                    }
+
+                    // Verificar colisión con fantasmas
+                    if (ghost.x === pacman.x && ghost.y === pacman.y) {
+                        resetGame();
+                    }
+                });
+
+                // Dibujar
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Dibujar puntos
+                ctx.fillStyle = '#FFEB3B';
+                dots.forEach(dot => {
+                    ctx.beginPath();
+                    ctx.arc(dot.x * gridSize + gridSize/2, dot.y * gridSize + gridSize/2, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                
+                // Dibujar pacman
+                ctx.fillStyle = '#FFC107';
+                ctx.beginPath();
+                ctx.arc(pacman.x * gridSize + gridSize/2, pacman.y * gridSize + gridSize/2, gridSize/2, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Dibujar fantasmas
+                ghosts.forEach(ghost => {
+                    ctx.fillStyle = ghost.color;
+                    ctx.beginPath();
+                    ctx.arc(ghost.x * gridSize + gridSize/2, ghost.y * gridSize + gridSize/2, gridSize/2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Verificar victoria
+                if (dots.length === 0) {
+                    clearInterval(gameInterval);
+                    alert(`¡Ganaste! Puntuación: ${score}`);
+                    setupGame('pacman');
+                }
+            }
+
+            function resetGame() {
+                clearInterval(gameInterval);
+                alert(`Game Over! Puntuación: ${score}`);
+                setupGame('pacman');
+            }
+
+            gameInterval = setInterval(gameLoop, 200);
+        }
+
+        // Juego de Tetris (versión simplificada)
+        function initTetris() {
+            const gridSize = 20;
+            const cols = Math.floor(canvas.width / gridSize);
+            const rows = Math.floor(canvas.height / gridSize);
+            let grid = Array(rows).fill().map(() => Array(cols).fill(0));
+            let currentPiece = createPiece();
+            let gameOver = false;
+
+            document.addEventListener('keydown', (e) => {
+                if (gameOver) return;
+                
+                switch(e.key) {
+                    case 'ArrowLeft':
+                        movePiece(-1, 0);
+                        break;
+                    case 'ArrowRight':
+                        movePiece(1, 0);
+                        break;
+                    case 'ArrowDown':
+                        movePiece(0, 1);
+                        break;
+                    case 'ArrowUp':
+                        rotatePiece();
+                        break;
+                }
+            });
+
+            function createPiece() {
+                const pieces = [
+                    [[1, 1, 1, 1]], // I
+                    [[1, 1], [1, 1]], // O
+                    [[0, 1, 0], [1, 1, 1]], // T
+                    [[1, 1, 0], [0, 1, 1]], // S
+                    [[0, 1, 1], [1, 1, 0]], // Z
+                    [[1, 0, 0], [1, 1, 1]], // L
+                    [[0, 0, 1], [1, 1, 1]]  // J
+                ];
+                
+                const piece = pieces[Math.floor(Math.random() * pieces.length)];
+                return {
+                    shape: piece,
+                    x: Math.floor(cols / 2) - Math.floor(piece[0].length / 2),
+                    y: 0
+                };
+            }
+
+            function movePiece(dx, dy) {
+                if (!collision(currentPiece.x + dx, currentPiece.y + dy, currentPiece.shape)) {
+                    currentPiece.x += dx;
+                    currentPiece.y += dy;
+                    draw();
+                } else if (dy > 0) {
+                    // Si no se puede mover hacia abajo, fijar la pieza
+                    mergePiece();
+                    clearLines();
+                    currentPiece = createPiece();
+                    
+                    // Verificar game over
+                    if (collision(currentPiece.x, currentPiece.y, currentPiece.shape)) {
+                        gameOver = true;
+                        clearInterval(gameInterval);
+                        alert(`Game Over! Puntuación: ${score}`);
+                    }
+                }
+            }
+
+            function rotatePiece() {
+                const rotated = currentPiece.shape[0].map((_, i) => 
+                    currentPiece.shape.map(row => row[i]).reverse()
+                );
+                
+                if (!collision(currentPiece.x, currentPiece.y, rotated)) {
+                    currentPiece.shape = rotated;
+                    draw();
+                }
+            }
+
+            function collision(x, y, shape) {
+                for (let row = 0; row < shape.length; row++) {
+                    for (let col = 0; col < shape[row].length; col++) {
+                        if (shape[row][col] && 
+                            (y + row >= rows || 
+                             x + col < 0 || 
+                             x + col >= cols || 
+                             grid[y + row][x + col])) {
+                            return true;
+                        }
+                    }
+                }
+                return false;
+            }
+
+            function mergePiece() {
+                for (let row = 0; row < currentPiece.shape.length; row++) {
+                    for (let col = 0; col < currentPiece.shape[row].length; col++) {
+                        if (currentPiece.shape[row][col]) {
+                            grid[currentPiece.y + row][currentPiece.x + col] = 1;
+                        }
+                    }
+                }
+            }
+
+            function clearLines() {
+                let linesCleared = 0;
+                
+                for (let row = rows - 1; row >= 0; row--) {
+                    if (grid[row].every(cell => cell)) {
+                        grid.splice(row, 1);
+                        grid.unshift(Array(cols).fill(0));
+                        linesCleared++;
+                        row++; // Revisar la misma fila de nuevo
+                    }
+                }
+                
+                if (linesCleared > 0) {
+                    score += linesCleared * 100;
+                    scoreDisplay.textContent = `Puntuación: ${score}`;
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Dibujar grid
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        if (grid[row][col]) {
+                            ctx.fillStyle = '#2196F3';
+                            ctx.fillRect(col * gridSize, row * gridSize, gridSize, gridSize);
+                            ctx.strokeStyle = '#0D47A1';
+                            ctx.strokeRect(col * gridSize, row * gridSize, gridSize, gridSize);
+                        }
+                    }
+                }
+                
+                // Dibujar pieza actual
+                ctx.fillStyle = '#E91E63';
+                for (let row = 0; row < currentPiece.shape.length; row++) {
+                    for (let col = 0; col < currentPiece.shape[row].length; col++) {
+                        if (currentPiece.shape[row][col]) {
+                            ctx.fillRect(
+                                (currentPiece.x + col) * gridSize, 
+                                (currentPiece.y + row) * gridSize, 
+                                gridSize, 
+                                gridSize
+                            );
+                            ctx.strokeStyle = '#AD1457';
+                            ctx.strokeRect(
+                                (currentPiece.x + col) * gridSize, 
+                                (currentPiece.y + row) * gridSize, 
+                                gridSize, 
+                                gridSize
+                            );
+                        }
+                    }
+                }
+            }
+
+            function gameLoop() {
+                if (!gameOver) {
+                    movePiece(0, 1);
+                }
+            }
+
+            draw();
+            gameInterval = setInterval(gameLoop, 500);
+        }
+    </script>
+</body>
+</html>

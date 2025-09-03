@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Naturaleza de un Agujero Negro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Orbitron:wght@400;700&display=swap');
+
+        :root {
+            --dark-bg: #0d0d1a;
+            --light-text: #e0e0f0;
+            --accent-color: #8a2be2; /* Azul violeta */
+            --accent-glow: rgba(138, 43, 226, 0.4);
+            --secondary-accent: #ff4500; /* Naranja rojizo */
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.8;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle, rgba(25,25,45,0.8) 0%, rgba(13,13,26,0.95) 70%), url('https://via.placeholder.com/1920x1080?text=Fondo+Estelar');
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5em;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px var(--accent-glow);
+            margin: 0;
+            animation: pulse-glow 2s infinite alternate;
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: var(--light-text);
+            margin-top: 15px;
+        }
+
+        .section {
+            background-color: rgba(20, 20, 35, 0.7);
+            padding: 40px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.1);
+        }
+
+        .section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2em;
+            color: var(--secondary-accent);
+            border-left: 4px solid var(--secondary-accent);
+            padding-left: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section p {
+            font-size: 1.1em;
+            text-align: justify;
+        }
+        
+        .section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .section li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        .section li::before {
+            content: '🌌';
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+            color: var(--accent-color);
+        }
+
+        .image-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 30px var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.02);
+        }
+
+        .callout {
+            background-color: var(--accent-color);
+            color: var(--dark-bg);
+            padding: 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.2em;
+        }
+
+        .callout span {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5em;
+            display: block;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(138, 43, 226, 0.3);
+            font-size: 0.9em;
+            color: #a0a0c0;
+        }
+        
+        @keyframes pulse-glow {
+            from {
+                text-shadow: 0 0 10px var(--accent-glow);
+            }
+            to {
+                text-shadow: 0 0 20px var(--accent-glow), 0 0 30px rgba(138, 43, 226, 0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Descifrando el Abismo Cósmico</h1>
+            <p>La fascinante y misteriosa naturaleza de un agujero negro.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2>¿Qué es un agujero negro?</h2>
+            <p>Un agujero negro es una región del espacio-tiempo con una gravedad tan inmensa que nada, ni siquiera la luz, puede escapar de su atracción. Se forma cuando una estrella masiva colapsa sobre sí misma al final de su vida, comprimiendo su materia en un punto infinitamente denso llamado <strong>singularidad</strong>.</p>
+            <p>Aunque no se pueden ver directamente, los científicos detectan su presencia por el efecto que su poderosa gravedad tiene sobre el entorno, como la deformación del espacio-tiempo y el movimiento de las estrellas a su alrededor.</p>
+        </section>
+
+        <div class="image-container">
+            <img src="https://via.placeholder.com/800x450?text=Agujero+Negro+y+Disco+de+Acreción" alt="Representación artística de un agujero negro con un disco de acreción">
+        </div>
+
+        <section class="section">
+            <h2>Componentes Clave</h2>
+            <ul>
+                <li><strong>La Singularidad:</strong> El núcleo del agujero negro. Aquí, las leyes de la física tal como las conocemos dejan de tener sentido, ya que toda la masa de la estrella colapsada se concentra en un volumen cero.</li>
+                <li><strong>El Horizonte de Sucesos:</strong> El punto de no retorno. Es la frontera invisible alrededor del agujero negro. Una vez que algo, incluso la luz, cruza esta línea, ya no puede volver a salir.</li>
+                <li><strong>El Disco de Acreción:</strong> Un torbellino de gas y polvo que se calienta a millones de grados Celsius por la fricción mientras gira a velocidades cercanas a la de la luz antes de ser engullido. Emite una intensa radiación, especialmente en rayos X, que es lo que los telescopios espaciales pueden detectar.</li>
+            </ul>
+        </section>
+
+        <section class="section callout">
+            <span>¡Dato Curioso!</span>
+            El primer agujero negro fotografiado directamente fue el de la galaxia M87. La imagen fue revelada en 2019 gracias al telescopio <strong>Event Horizon Telescope</strong>, un conjunto de telescopios terrestres que actúan como uno solo.
+        </section>
+
+        <section class="section">
+            <h2>Tipos de Agujeros Negros</h2>
+            <p>Existen tres tipos principales según su masa:</p>
+            <ul>
+                <li><strong>Agujeros Negros Estelares:</strong> Son los más comunes. Se forman del colapso de una sola estrella y tienen una masa de 3 a 20 veces la del Sol.</li>
+                <li><strong>Agujeros Negros de Masa Intermedia:</strong> Teóricos y difíciles de encontrar, se cree que se forman a partir de la colisión de estrellas en cúmulos densos y su masa puede ser cientos de veces la del Sol.</li>
+                <li><strong>Agujeros Negros Supermasivos:</strong> Se encuentran en el centro de casi todas las galaxias. El más famoso es Sagitario A*, en el centro de nuestra Vía Láctea. Sus masas pueden ser millones o incluso miles de millones de veces la del Sol.</li>
+            </ul>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2023 Exploradores Cósmicos | Información basada en datos científicos de la NASA y la ESA.</p>
+    </footer>
+
+</body>
+</html>
